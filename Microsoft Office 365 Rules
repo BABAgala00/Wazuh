@@ -43,7 +43,7 @@
 	<!-- https://docs.microsoft.com/en-us/azure/active-directory/develop/reference-aadsts-error-codes -->
   </rule>
 
-<!-- 365 MFA login failed + attempt was made from External IP address-->  
+<!-- 365 MFA login failed + attempt was made from External IP address -->  
   <rule id="100105" level="11">
     <if_sid>100104</if_sid>
     <field name="office_365.ClientIP" negate="yes">^192.168.\d+.\d+$|^%{192.168.\d+.\d+}$</field>
@@ -75,6 +75,7 @@
   </rule>
   
 <!--  Passwd Reset event for VIP users -->
+<!-- Set spesific users mail addressess -->
   <rule id="100109" level="11">
     <if_sid>100108</if_sid>
     <field name="office_365.ObjectId">example@example.com|example@example.gov</field>
