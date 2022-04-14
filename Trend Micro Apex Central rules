@@ -1,0 +1,17 @@
+<!--
+  -  Trend micro Apex Centrla rules.
+  -  Author: Gal Akavia.
+  -  Copyright (C) 2015-2020, Wazuh Inc.
+  -  Copyright (C) 2009 Trend Micro Inc.
+  -  This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2.
+-->
+
+<group name="cef_trend_micro,">
+
+  <rule id="100200" level="3">
+    <decoded_as>cef_trend_micro</decoded_as>
+    <description>TM Apex Central syslog messages grouped.</description>
+  </rule>
+
+</group>
+
