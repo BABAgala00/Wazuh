@@ -1,0 +1,360 @@
+<!--
+  -  Trend micro Apex Central decoders.
+  -  Author: Gal Akavia.
+  -  Copyright (C) 2015-2022, Wazuh Inc.
+  -  Copyright (C) 2009 Trend Micro Inc.
+  -  This program is a free software; you can redistribute it and/or modify it under the terms of GPLv2.
+-->
+
+<!--
+  - Fix to Trend Micro Apex Central CEF logs: 
+  https://docs.trendmicro.com/en-us/enterprise/trend-micro-apex-central-2019-online-help/appendices/syslog-mapping-cef.aspx
+
+
+-->
+
+<!-- Apr 12 2022 10:11:55 CEF:0|Trend Micro|Apex Central|2019|BM:1000|Behavior Monitoring|3|... -->
+
+<decoder name="cef_trend_micro">
+    <prematch type="pcre2">CEF:0\|Trend Micro\|</prematch>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">(\w{3})\s+\d{1,2}\s+(\d+)\s+(\d+:\d+:\d+)\s+central-epp.y-tech.cloud\s+CEF:0\|Trend Micro\|([^\|]+)\|(\d+)\|</regex>
+    <order>time.month,time.day,time.hour,application,version</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">2019\|([^\|]+)\|([^\|]+)\|</regex>
+    <order>module.id,module.type</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">src\=(\d+.\d+.\d+.\d+)</regex>
+    <order>src.ip</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">TMCMLogDetectedHost\=(\S+)</regex>
+    <order>src.endpoint</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">TMCMLogDetectedIP\=(\d+.\d+.\d+.\d+)\s</regex>
+    <order>src.endpointIP</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">dhost\=(\S+)</regex>
+    <order>endpoint</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">duser\=(\S+)</regex>
+    <order>user</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">dvchost\=(\S+)</regex>
+    <order>calling.endpoint</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">dst\=(\d+.\d+.\d+.\d+)</regex>
+    <order>dst.ip</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">dst\=(\S+)</regex>
+    <order>dst.endpoint</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">smac\=(\S+:\S+:\S+:\S+:\S+:\S+)</regex>
+    <order>src.mac</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">dmac\=(\S+:\S+:\S+:\S+:\S+:\S+)</regex>
+    <order>dst.mac</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">dpt\=(\d+)</regex>
+    <order>dst.port</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">spt\=(\d+)</regex>
+    <order>src.port</order>
+</decoder>
+
+<!-- Mode cn2Label=-->
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn2Label\=(\S+)</regex>
+    <order>event.mode</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn2Label\=([a-zA-Z_ ].*)\scn2</regex>
+    <order>scanType1</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn2\=([a-zA-Z_-].*)cs1Label</regex>
+    <order>second_action</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn3\=(\S+)</regex>
+    <order>security.threat</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn2\=([^\s]+)</regex>
+    <order>event.pattern</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">act\=(\S+)\,|\scn1Label|\scs4Label</regex>
+    <order>event.type1</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs4Label\=(\S+)\scs4</regex>
+    <order>event.type2</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">deviceDirection\=(\S+)</regex>
+    <order>direction</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn3Label\=(\S+)</regex>
+    <order>priority.info</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn3\=(\S+)</regex>
+    <order>priority.level</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">deviceFacility\=(Apex\sOne)</regex>
+    <order>device.facility</order>
+</decoder>
+
+<!-- 1 Low - 4 Critical -->
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn4\=(\d+)</regex>
+    <order>priority.sevirity</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">proto\=(\S+)</regex>
+    <order>protocol</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs2\=((?s).*)\scn1Label\=|\ssproc\=</regex>
+    <order>protocol.service</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn1Label\=([^\s]+)</regex>
+    <order>tmLabel.type</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cn1\=(\d+)</regex>
+    <order>tmLabel.risk_OR_pattern</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs1Label\=(\S+)</regex>
+    <order>tmLabel.rule</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs1\=((?).*)\scnt\=|\scs2Label\=</regex>
+    <order>tmLabel.subrule</order>
+</decoder>
+
+<!-- attack discovery -->
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs1\=([a-zA-Z_ \\].*)act\=</regex>
+    <order>tmLabel.subrule</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">dntdom\=((?s).*)</regex>
+    <order>customer.ou</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cnt\=(\d+)</regex>
+    <order>Detections</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs4Label\=([a-zA-Z0-9 -_].*)\scs5Label</regex>
+    <order>reason.code</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs4\=([a-zA-Z0-9_ -].*)cs5Label</regex>
+    <order>operation.status</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs5\=([a-zA-Z0-9 -_].*)\scs6Label\=</regex>
+    <order>first.action</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs6\=(\S+)\scat</regex>
+    <order>second.action</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">fname\=([a-zA-Z_ ;!\/.].*)\sfilePath</regex>
+    <order>file.name</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">fileHash\=(\S+)\s</regex>
+    <order>fileHash.sha1</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">c6a3\=([a-zA-Z0-9_ :%]*)\s</regex>
+    <order>ipv6</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">filePath\=([a-zA-Z0-9 -_\\//].*)msg</regex>
+    <order>file.path</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">msg\=([a-zA-Z0-9 -_\\//].*)shost</regex>
+    <order>File_in_compressed_file</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">filePath\=([a-zA-Z0-9_ ].*)\sdhost</regex>
+    <order>file.path</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">shost\=(\S+)</regex>
+    <order>host</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">suser\=([a-zA-Z0-9_ -].*)\sdst</regex>
+    <order>user</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs3=(\S+)\s</regex>
+    <order>product.version</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">cs3Label=(\.+)\scs3\=</regex>
+    <order>object.info2</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">c2Label=(\S+)\scs2\=</regex>
+    <order>policy.id</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">sproc=((?s).*)\scs3Label\=</regex>
+    <order>aegis.subject</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">sproc=([a-zA-Z_ \\].*)fname</regex>
+    <order>target.process</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">fname=([a-zA-Z_ \\].*)cn2Label|filePath</regex>
+    <order>filename</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">deviceProcessName=([a-zA-Z_ \\].*)cn3Label</regex>
+    <order>filename</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">deviceProcessName=([a-zA-Z_ \\].*)cn3Label=Web</regex>
+    <order>process.name</order>
+</decoder>
+
+<decoder name="cef_apex_central">
+    <parent>cef_trend_micro</parent>
+    <regex type="pcre2">request=(\S+)</regex>
+    <order>http.request</order>
+</decoder>
