@@ -13,5 +13,55 @@
     <description>TM Apex Central syslog messages grouped.</description>
   </rule>
 
+  <rule id="100201" level="5">
+    <if_sid>100200</if_sid>
+    <field name="module.id">700220</field>
+    <description>Attack Discovery Detections</description>
+    <!--<options>no_full_log</options>-->
+  </rule>
+
+  <rule id="100202" level="5">
+    <if_sid>100200</if_sid>
+    <field name="module.type">Intrusion\sPrevention</field>
+    <field name="module.id">(\S+)</field>
+    <field name="direction">(\S+)</field>
+    <description>Intrusion Prevention was activated, Threat $(module.id) $(direction) direction.</description>
+    <!--<options>no_full_log</options>-->
+  </rule>
+  
+  <rule id="100203" level="14">
+    <if_sid>100200</if_sid>
+    <field name="module.id">CnC:(\S+)</field>
+    <description>CnC Callback Detected, $(module.id)</description>
+    <!--<options>no_full_log</options>-->
+  </rule>
+
+  <rule id="100204" level="14">
+    <if_sid>100200</if_sid>
+    <field name="module.id">NCIE:(\S+)</field>
+    <field name="direction">Outbound|Inbound</field>
+    <description>Suspicious Connection Detected, $(module.id) $(direction) direction.</description>
+    <!--<options>no_full_log</options>-->
+  </rule>
+
+  <rule id="100205" level="5">
+    <if_sid>100200</if_sid>
+    <field name="module.id">BM:\S+</field>
+    <field name="aegis.subject">(\S+)</field>    
+    <field name="tmLabel.subrule">(\S+)</field>       
+    <description>Behavior Monitoring Event - $(aegis.subject), Behavior: $(tmLabel.subrule)</description>
+    <!--<options>no_full_log</options>-->
+  </rule>
+
+  <rule id="100206" level="14">
+    <if_sid>100200</if_sid>
+    <field name="module.id">AV:(\S+)</field>
+    <field name="first.action">(\.+)\scn1Label</field>
+    <field name="module.type">(\S+)</field>
+    <description>Virus detected >> $(module.type) | Status - $(first.action)</description>
+    <!--<options>no_full_log</options>-->
+  </rule>
+
+
 </group>
 
